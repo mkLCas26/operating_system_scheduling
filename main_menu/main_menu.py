@@ -2,72 +2,185 @@ import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
 
-def open_cpu_scheduling():
-    messagebox.showinfo("CPU Scheduling", "CPU Scheduling module opened.")
 
-def open_disk_management():
-    messagebox.showinfo("Disk Management", "Disk Management module opened.")
+#CPU SCHED files
+#from [foldername.filename] import ClassName
 
-def open_memory_management():
-    messagebox.showinfo("Memory Management", "Memory Management module opened.")
+#MEMORY MANAGEMENT files
+#from [foldername.filename] import ClassName
 
-def open_virtual_memory():
-    messagebox.showinfo("Virtual Memory", "Virtual Memory module opened.")
+#VIRTUAL MEMORY files
+from virtual_memory.fifo_replacement import VirMemPage
 
-root = tk.Tk()
-root.title("Operating System Scheduling")  
-root.geometry("1024x576")
-root.resizable(False, False)
+#DISK SCHED files
+#from [foldername.filename] import ClassName
 
-try:
-    bg_image = Image.open("assets/main_menu.jpg")
-    bg_image = bg_image.resize((1024, 576), Image.LANCZOS)
-    bg_photo = ImageTk.PhotoImage(bg_image)
+class MainApp(tk.Tk):
+    def __init__(self):     
+        super().__init__()   # initialize parent class
+        
+        self.queue_mode = "MANUAL"  # default value
+        
+        # general window title, dimension, and allow fullscreen
+        self.title("OS SIMULATOR")
+        self.geometry("1920x1080")
+        self.resizable(True, True)
+        
+        # for holding pages as frames (allow smooth change of windows)
+        container = tk.Frame(self)
+        container.pack(fill="both", expand=True)
+        
+        self.frames = {}
+        # list of pages included (so if may dinedevelop na page i-add ung class dito para magpakita pag ni-run)
+        for page in (HomePage, VirMemPage, DevPage):  
+            frame = page(container, self)
+            self.frames[page.__name__] = frame
+            frame.place(relwidth=1, relheight=1)
+        
+        self.show_frame("HomePage")   # first page shown will be the Start Page
+        
+    def show_frame(self, page_name):
+        self.frames[page_name].tkraise()
+    
+class HomePage(tk.Frame):
+    def __init__(self, parent, controller):
+        super().__init__(parent)                # start page is the parent class
+        self.controller = controller
+        
+        ''' FOR BACKGROUND SETUP '''
+        # canvas for storing the background of start page
+        self.canvas = tk.Canvas(self)
+        self.canvas.pack(fill="both", expand=True)
+        
+        # load the background image in canvas
+        self.bg_img = Image.open("assets/main_menu.png")
+        self.home_bg = ImageTk.PhotoImage(self.bg_img)
+        
+        # draw bg
+        self.canvas_bg = self.canvas.create_image(0, 0, image=self.home_bg, anchor="nw")
+        
+        # auto resize of background
+        self.canvas.bind("<Configure>", self.resize_bg)
+        
+        ''' FOR BUTTONS AND LABELS '''
+        # button configuration
+        button_config = {
+            "font": ("Courier New", 11, "bold"), 
+            "bg": "#cedbd0",         
+            "fg": "#1a1a1a",         
+            "activebackground": "#a1b2a6", 
+            "activeforeground": "#000000",
+            "bd": 3,
+            "relief": "raised",    
+            "width": 60
+        }
+        
+        # cpu button -> cpu page
+        btn_cpu = tk.Button(
+            self,
+            text="💻 CPU SCHEDULING", 
+            command=lambda: controller.show_frame("CpuPage"), 
+            **button_config
+        )
+        
+        self.canvas.create_window(775, 360, window=btn_cpu)
+        
+        # memory management btn  ->  mem man page
+        btn_mem = tk.Button(
+            self,
+            text="📟 MEMORY MANAGEMENT",
+            command=lambda: controller.show_frame("MemoryPage"),
+            **button_config
+        )
+        
+        self.canvas.create_window(775, 420, window=btn_mem)
+        
+        # virmem button -> virmem page
+        btn_vmem = tk.Button(
+            self,
+            text="📁 VIRTUAL MEMORY", 
+            command=lambda: controller.show_frame("VirMemPage"),
+            **button_config
+        )
+        
+        self.canvas.create_window(775, 480, window=btn_vmem)
+        
+        # disk button -> disk sched page
+        btn_disk = tk.Button(
+            self,
+            text="💾 DISK MANAGEMENT", 
+            command=lambda: controller.show_frame("DiskManPage"), 
+            **button_config
+        )
+        
+        self.canvas.create_window(775, 540, window=btn_disk)
+        
+        # dev button -> dev page
+        btn_dev = tk.Button(
+            self,
+            text="👥 Meet The Developers", 
+            command=lambda: controller.show_frame("DevPage"), 
+            **button_config
+        )
+        
+        self.canvas.create_window(775, 600, window=btn_dev)
+    
+    def resize_bg(self, event):
+        resized = self.bg_img.resize((event.width, event.height))
+        self.start_bg = ImageTk.PhotoImage(resized)
+        
+        self.canvas.itemconfig(self.canvas_bg, image=self.start_bg)
+        
+class DevPage(tk.Frame):
+    def __init__(self, parent, controller):
+        super().__init__(parent)
+        
+        ''' FOR BACKGROUND SETUP '''
+        # canvas for storing the background of start page
+        self.canvas = tk.Canvas(self)
+        self.canvas.pack(fill="both", expand=True)
+        
+        # load the background image in canvas
+        self.bg_img = Image.open("assets/background.png")
+        self.dev_bg = ImageTk.PhotoImage(self.bg_img)
+        
+        # draw bg 
+        self.canvas_bg = self.canvas.create_image(0, 0, image=self.dev_bg, anchor="nw")
+        
+        # auto resize of background
+        self.canvas.bind("<Configure>", self.resize_bg) 
+        
+        ''' FOR BUTTONS AND LABELS '''
+    
+        # button configuration
+        button_config = {
+            "font": ("Courier New", 11, "bold"), 
+            "bg": "#cedbd0",         
+            "fg": "#1a1a1a",         
+            "activebackground": "#a1b2a6", 
+            "activeforeground": "#000000",
+            "bd": 3,
+            "relief": "raised",       
+            "width": 24,            
+            "height": 1
+        }
+        
+        btn_home = tk.Button(
+            self,
+            text="back 2 home", 
+            command=lambda: controller.show_frame("HomePage"), 
+            **button_config
+        )
+        
+        self.canvas.create_window(103, 38, window=btn_home)
+        
+    def resize_bg(self, event):
+        resized = self.bg_img.resize((event.width, event.height))
+        self.dev_bg = ImageTk.PhotoImage(resized)
+        
+        self.canvas.itemconfig(self.canvas_bg, image=self.dev_bg)
 
-    canvas = tk.Canvas(root, width=1024, height=576)
-    canvas.pack(fill="both", expand=True)
-    canvas.create_image(0, 0, image=bg_photo, anchor="nw")
 
-except FileNotFoundError:
-   print("Background image not found. Continuing without background.")
-
-   canvas = tk.Canvas(root, width=1024, height=576, bg="lightblue")
-   canvas.pack(fill="both", expand=True)
-
-canvas.create_rectangle(390, 220, 634, 450, fill="#b5c4ba", outline="#ffffff", width=2) 
-canvas.create_rectangle(390, 220, 634, 245, fill="#8ba094", outline="#ffffff", width=2)
-
-canvas.create_rectangle(396, 226, 406, 236, fill="#b5c4ba", outline="#ffffff")
-canvas.create_rectangle(618, 226, 628, 236, fill="#b5c4ba", outline="#ffffff")
-
-button_config = {
-    "font": ("Courier New", 11, "bold"), 
-    "bg": "#cedbd0",         
-    "fg": "#1a1a1a",         
-    "activebackground": "#a1b2a6", 
-    "activeforeground": "#000000",
-    "bd": 3,                 
-    "relief": "raised",       
-    "width": 24,             
-    "height": 1   
-}
-
-btn_cpu = tk.Button(root, text="💻 CPU SCHEDULING", command=open_cpu_scheduling, **button_config)
-btn_disk = tk.Button(root, text="💾 DISK MANAGEMENT", command=open_disk_management, **button_config)
-btn_mem = tk.Button(root, text="📟 MEMORY MANAGEMENT", command=open_memory_management, **button_config)
-btn_vmem = tk.Button(root, text="📁 VIRTUAL MEMORY", command=open_virtual_memory, **button_config)
-
-canvas.create_window(512, 275, window=btn_cpu)
-canvas.create_window(512, 320, window=btn_disk)
-canvas.create_window(512, 365, window=btn_mem)
-canvas.create_window(512, 410, window=btn_vmem)
-
-canvas.create_rectangle(390, 490, 634, 530, fill="#1c1135", outline="#9c84cf", width=1)
-canvas.create_text(
-    512, 510, 
-    text="SIMULATOR ACTIVE\nSelect an Option to Begin", 
-    font=("Courier New", 9), 
-    fill="#ebd15b", 
-    justify="center"
-)
-root.mainloop()
+if __name__ == "__main__":
+    run_app = MainApp()
+    run_app.mainloop()
