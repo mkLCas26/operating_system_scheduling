@@ -20,7 +20,7 @@ root.geometry("1024x576")
 root.resizable(False, False)
 
 try:
-    bg_image = Image.open(r"C:\Users\Precious Nicole\Documents\OS\operating_system_scheduling\main_menu\purple.jpg")
+    bg_image = Image.open("assets/main_menu.jpg")
     bg_image = bg_image.resize((1024, 576), Image.LANCZOS)
     bg_photo = ImageTk.PhotoImage(bg_image)
 
