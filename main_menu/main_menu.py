@@ -140,7 +140,8 @@ class DevPage(tk.Frame):
         self.canvas = tk.Canvas(self)
         self.canvas.pack(fill="both", expand=True)
         
-        # load the background image in canvas
+        ''' Change dev page background soon '''
+        # load the background image in canvas  
         self.bg_img = Image.open("assets/background.png")
         self.dev_bg = ImageTk.PhotoImage(self.bg_img)
         
@@ -152,7 +153,6 @@ class DevPage(tk.Frame):
         
         ''' FOR BUTTONS AND LABELS '''
     
-        # button configuration
         button_config = {
             "font": ("Courier New", 11, "bold"), 
             "bg": "#cedbd0",         
@@ -160,14 +160,13 @@ class DevPage(tk.Frame):
             "activebackground": "#a1b2a6", 
             "activeforeground": "#000000",
             "bd": 3,
-            "relief": "raised",       
-            "width": 24,            
-            "height": 1
+            "relief": "raised",    
+            "width": 60
         }
         
         btn_home = tk.Button(
             self,
-            text="back 2 home", 
+            text="Sample Home Button", 
             command=lambda: controller.show_frame("HomePage"), 
             **button_config
         )
