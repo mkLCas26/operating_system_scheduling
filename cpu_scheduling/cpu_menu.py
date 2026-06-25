@@ -3,6 +3,7 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 
 from cpu_scheduling.fcfs_gui import FCFSPage
+from cpu_scheduling.rr_gui import RRPage
 
 class CpuPage(tk.Frame):
     def __init__(self, parent, controller):
@@ -70,7 +71,7 @@ class CpuPage(tk.Frame):
         btn_rr = tk.Button(
             self,
             text="🗃️ ROUND ROBIN SCHEDULING", 
-            command=lambda: controller.show_frame("RoundRobinPage"), 
+            command=lambda: controller.show_frame("RRPage"), 
             **button_config
         )
         
