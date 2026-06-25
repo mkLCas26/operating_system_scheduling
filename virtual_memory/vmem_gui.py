@@ -22,6 +22,28 @@ class VirMemPage(tk.Frame):
         
         # auto resizing bg 
         self.canvas.bind("<Configure>", self.resize_bg)
+      
+        # button configuration
+        button_config = {
+            "font": ("Courier New", 11, "bold"), 
+            "bg": "#cedbd0",         
+            "fg": "#1a1a1a",      
+            "activebackground": "#a1b2a6", 
+            "activeforeground": "#000000",
+            "bd": 3,
+            "relief": "raised",       
+            "width": 30           
+        }
+      
+        ''' ---- HOME BUTTON  ---- '''
+        btn_home = tk.Button(
+            self,
+            text="Home", 
+            command=lambda: controller.show_frame("HomePage"), 
+            **button_config
+        )
+        
+        self.canvas.create_window(775, 730, window=btn_home)
         
     def resize_bg(self, event):
         resized = self.bg_img.resize((event.width, event.height))
