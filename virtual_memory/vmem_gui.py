@@ -53,7 +53,60 @@ class VirMemPage(tk.Frame):
             "relief": "raised",       
             "width": 30           
         }
-      
+
+        ''' --- REFERENCE STRING LABELS ---- '''
+        self.reference_label = tk.Label(
+            self.canvas,
+            text="Reference String: ",
+            font=("Courier New", 13, "bold"),
+            bg="#b5c4ba",
+            justify="left"
+        )
+        
+        self.random_ref_label = tk.Label(
+            self.canvas,
+            text="",
+            font=("Courier New", 11, "bold"),
+            bg="#b5c4ba",
+            justify="left"
+        )
+        
+        self.canvas.create_window(130, 140, window=self.reference_label)
+        self.canvas.create_window(130, 140, window=self.reference_label)
+        
+        
+        ''' ---- PAGE FRAME NUMBER LABEL, DROPDOWN, AND BUTTON ---- '''
+        self.select_frame_num_label = tk.Label(
+            self.canvas,
+            text="Select the number of frames:",
+            font=("Courier New", 13, "bold"),
+            bg="#b5c4ba",
+            justify="center"
+        )
+        
+        self.dropdown_select = ttk.Combobox(
+            self.canvas,
+            values=["3", "4"],
+            font=("Courier New", 13),
+            width=6, state="readonly"
+        )
+        self.dropdown_select.set("3") 
+        
+        self.generate_btn = tk.Button(
+            self,
+            text="Generate!",
+            command=lambda: controller.show_frame("HomePage"),
+            **button_config
+        )
+        
+        self.canvas.create_window(1335, 180, window=self.select_frame_num_label)
+        self.canvas.create_window(1335,220, window=self.dropdown_select)
+        self.canvas.create_window(1335, 280, window=self.generate_btn)
+        
+        ''' ---- PAGE FAULT DISPLAY TABLE ---- '''
+        self.algo_list = ["FIFO", "OPTIMAL", "LRU", "LFU", "MFU"]
+        self.fault_labels = {}
+
         ''' ---- HOME BUTTON  ---- '''
         btn_home = tk.Button(
             self,
