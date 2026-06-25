@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
 
+from cpu_scheduling.fcfs_gui import FCFSPage
+
 class CpuPage(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
@@ -38,7 +40,7 @@ class CpuPage(tk.Frame):
         btn_fcfs = tk.Button(
             self,
             text="🗃️ FCFS (FIRST-COME, FIRST SERVED)", 
-            command=lambda: controller.show_frame("FcfsPage"), 
+            command=lambda: controller.show_frame("FCFSPage"), 
             **button_config
         )
         
