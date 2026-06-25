@@ -22,7 +22,26 @@ class VirMemPage(tk.Frame):
         
         # auto resizing bg 
         self.canvas.bind("<Configure>", self.resize_bg)
-      
+
+        ''' ---- SCROLLABLE PAGING CANVAS --- '''
+        self.paging_frame = tk.Frame(self)
+        self.paging_frame.place(x=19, y=170, width=1130, height=530)
+        
+        ''' ---- X AND Y SCROLLBARS ---- '''
+        self.canvas_container = tk.Frame(self.paging_frame)
+        self.canvas_container.pack(side="top", fill="both", expand="True")
+        
+        self.paging_canvas = tk.Canvas(self.canvas_container, bg="#b5c4ba", highlightthickness=0)
+        self.paging_canvas.pack(side="left", fill="both", expand=True)
+
+        self.cont_yscrollbar = tk.Scrollbar(self.canvas_container, orient="vertical", command=self.paging_canvas.yview)
+        self.cont_yscrollbar.pack(side="right", fill="y")
+
+        self.cont_xscrollbar = tk.Scrollbar(self.paging_frame, orient="horizontal", command=self.paging_canvas.xview)
+        self.cont_xscrollbar.pack(side="bottom", fill="x")
+
+        self.paging_canvas.configure(yscrollcommand=self.cont_yscrollbar.set,xscrollcommand=self.cont_xscrollbar.set) 
+        
         # button configuration
         button_config = {
             "font": ("Courier New", 11, "bold"), 
