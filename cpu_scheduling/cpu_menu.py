@@ -69,7 +69,7 @@ class CpuPage(tk.Frame):
         # rr button -> rr page
         btn_rr = tk.Button(
             self,
-            text="🗃️ Round Robin Scheduling", 
+            text="🗃️ ROUND ROBIN SCHEDULING", 
             command=lambda: controller.show_frame("RoundRobinPage"), 
             **button_config
         )

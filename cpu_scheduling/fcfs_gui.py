@@ -32,26 +32,84 @@ class FCFSPage(tk.Frame):
     def setup_ui(self):
         # --- 1. INPUT FRAME (Top Left) ---
         input_frame = tk.Frame(self, bg="#b5c4ba", bd=4, relief="ridge") 
-        input_frame.place(relx=0.03, rely=0.16, relwidth=0.32, relheight=0.25)
+        input_frame.place(relx=0.03, rely=0.16, relwidth=0.32, relheight=0.24)
 
-        tk.Label(input_frame, text="Arrival Time:", bg="#b5c4ba", font=("Courier", 10, "bold")).grid(row=0, column=0, padx=10, pady=(15, 5), sticky="w")
-        self.entry_at = tk.Entry(input_frame, width=15)
-        self.entry_at.grid(row=0, column=1, padx=5, pady=(15, 5))
+        # Tell the frame to stretch its columns and rows to fill all available space
+        input_frame.columnconfigure(0, weight=1) # The Label column
+        input_frame.columnconfigure(1, weight=2) # The Entry column (gets more stretch space)
+        input_frame.rowconfigure(0, weight=1)
+        input_frame.rowconfigure(1, weight=1)
+        input_frame.rowconfigure(2, weight=1)
 
-        tk.Label(input_frame, text="Burst Time:", bg="#b5c4ba", font=("Courier", 10, "bold")).grid(row=1, column=0, padx=10, pady=5, sticky="w")
-        self.entry_bt = tk.Entry(input_frame, width=15)
-        self.entry_bt.grid(row=1, column=1, padx=5, pady=5)
+        # Styling dictionaries
+        lbl_style = {"bg": "#b5c4ba", "fg": "#2b1f47", "font": ("Courier", 11, "bold")}
+        
+        entry_style = {
+            "bg": "#cedbd0",
+            "fg": "#1a1a1a", 
+            "font": ("Courier", 11, "bold"), 
+            "relief": "solid", 
+            "bd": 1
+        }
+        
+        btn_style = {
+            "font": ("Courier", 10),
+            "bg": "#cedbd0",
+            "fg": "#1a1a1a",
+            "activebackground": "#a1b2a6",
+            "relief": "solid",
+            "bd": 1
+        }
 
-        # Buttons
-        btn_frame = tk.Frame(input_frame, bg="#99aab5")
-        btn_frame.grid(row=2, column=0, columnspan=2, pady=10)
-        tk.Button(btn_frame, text="Add", command=self.add_process, width=8).pack(side="left", padx=5)
-        tk.Button(btn_frame, text="Run FCFS", command=self.run_algorithm, width=10).pack(side="left", padx=5)
-        tk.Button(btn_frame, text="Clear", command=self.clear_all, width=8).pack(side="left", padx=5)
+        # ROW 0 & 1: Labels and Entries
+        # pady=(20, 0) means 20 pixels of space above, 0 pixels below
+        tk.Label(input_frame, text="Arrival Time:", **lbl_style).grid(row=0, column=0, padx=10, pady=(20, 0), sticky="e")
+        self.entry_at = tk.Entry(input_frame, **entry_style)
+        self.entry_at.grid(row=0, column=1, padx=5, pady=(20, 0), sticky="w")
+
+        # pady=(2, 10) means 2 pixels of space above, 10 pixels below
+        tk.Label(input_frame, text="Burst Time:", **lbl_style).grid(row=1, column=0, padx=10, pady=(2, 10), sticky="e")
+        self.entry_bt = tk.Entry(input_frame, **entry_style)
+        self.entry_bt.grid(row=1, column=1, padx=5, pady=(2, 10), sticky="w")
+
+        # ROW 2: The Button Frame
+        # We put the buttons in their own frame that stretches across both columns
+        btn_frame = tk.Frame(input_frame, bg="#b5c4ba")
+        btn_frame.grid(row=2, column=0, columnspan=2, pady=(10, 15), padx=10, sticky="ew")
+        
+        # Configure the button frame so each button gets an equal 1/3rd of the space
+        btn_frame.columnconfigure(0, weight=1)
+        btn_frame.columnconfigure(1, weight=1)
+        btn_frame.columnconfigure(2, weight=1)
+
+        # Use sticky="ew" to make the buttons fill their designated third of the screen
+        tk.Button(btn_frame, text="Add Process", command=self.add_process, **btn_style).grid(row=0, column=0, padx=5, sticky="ew")
+        tk.Button(btn_frame, text="Start FCFS", command=self.run_algorithm, **btn_style).grid(row=0, column=1, padx=5, sticky="ew")
+        tk.Button(btn_frame, text="Clear", command=self.clear_all, **btn_style).grid(row=0, column=2, padx=5, sticky="ew")
 
         # --- 2. TABLE FRAME (Bottom Left) ---
         table_frame = tk.Frame(self, bg="#b5c4ba", bd=4, relief="ridge")
         table_frame.place(relx=0.03, rely=0.43, relwidth=0.32, relheight=0.45)
+
+        # --- NEW: Treeview Styling ---
+        style = ttk.Style()
+        style.theme_use("default") # Forces Tkinter to let us change the colors
+        
+        style.configure("Treeview",
+                        background="#cedbd0",
+                        foreground="#1a1a1a",
+                        fieldbackground="#cedbd0", # Changes the empty space color
+                        bordercolor="#99aab5",
+                        font=("Courier", 9))
+        
+        # Style the table headers
+        style.configure("Treeview.Heading",
+                        background="#a1b2a6",
+                        foreground="black",
+                        font=("Courier", 10, "bold"))
+        
+        # Change color when a row is selected
+        style.map('Treeview', background=[('selected', '#8a2be2')])
 
         cols = ("PID", "AT", "BT", "CT", "TAT", "WT")
         self.tree = ttk.Treeview(table_frame, columns=cols, show="headings")
@@ -69,7 +127,7 @@ class FCFSPage(tk.Frame):
 
         tk.Label(right_frame, text="Gantt Chart:", font=("Courier", 12, "bold"), bg="#b5c4ba").pack(anchor="w", padx=20)
         
-        self.canvas = tk.Canvas(right_frame, bg="white", height=200)
+        self.canvas = tk.Canvas(right_frame, bg="#cedbd0", height=200, highlightthickness=0, relief="solid", bd=2)
         self.canvas.pack(fill="both", expand=True, padx=20, pady=10)
 
     def resize_bg(self, event):
