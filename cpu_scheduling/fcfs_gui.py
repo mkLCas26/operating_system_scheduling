@@ -122,7 +122,7 @@ class FCFSPage(tk.Frame):
         right_frame = tk.Frame(self, bg="#b5c4ba", bd=4, relief="ridge")
         right_frame.place(relx=0.38, rely=0.16, relwidth=0.59, relheight=0.72)
 
-        self.lbl_stats = tk.Label(right_frame, text="Avg TAT: 0.00 | Avg WT: 0.00", font=("Courier", 14, "bold"), bg="#b5c4ba")
+        self.lbl_stats = tk.Label(right_frame, text="Avg TAT: 0.00 | Avg WT: 0.00 | CPU Utilization: 0.00%", font=("Courier", 14, "bold"), bg="#b5c4ba")
         self.lbl_stats.pack(anchor="w", padx=20, pady=15)
 
         tk.Label(right_frame, text="Gantt Chart:", font=("Courier", 12, "bold"), bg="#b5c4ba").pack(anchor="w", padx=20)
@@ -163,7 +163,7 @@ class FCFSPage(tk.Frame):
             messagebox.showwarning("Warning", "Add some processes first!")
             return
 
-        calculated_data, avg_tat, avg_wt, timeline = calculate_fcfs(self.process_queue)
+        calculated_data, avg_tat, avg_wt, cpu_util, timeline = calculate_fcfs(self.process_queue)
 
         for item in self.tree.get_children():
             self.tree.delete(item) 
@@ -171,7 +171,7 @@ class FCFSPage(tk.Frame):
         for p in calculated_data:
             self.tree.insert("", "end", values=(p['pid'], p['at'], p['bt'], p['ct'], p['tat'], p['wt']))
 
-        self.lbl_stats.config(text=f"Avg TAT: {avg_tat} | Avg WT: {avg_wt}")
+        self.lbl_stats.config(text=f"Avg TAT: {avg_tat} | Avg WT: {avg_wt} | CPU Utilization: {cpu_util}%")
         self.draw_gantt(timeline)
 
     def draw_gantt(self, timeline):
@@ -212,4 +212,4 @@ class FCFSPage(tk.Frame):
         for item in self.tree.get_children():
             self.tree.delete(item)
         self.canvas.delete("all")
-        self.lbl_stats.config(text="Avg TAT: 0.00 | Avg WT: 0.00")
+        self.lbl_stats.config(text="Avg TAT: 0.00 | Avg WT: 0.00 | CPU Utilization: 0.00%")
