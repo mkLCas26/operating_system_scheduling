@@ -12,7 +12,7 @@ from cpu_scheduling.rr_gui import RRPage
 #from [foldername.filename] import ClassName
 
 #VIRTUAL MEMORY files
-from virtual_memory.fifo_replacement import VirMemPage
+from virtual_memory.vmem_gui import VirMemPage
 
 #DISK SCHED files
 #from [foldername.filename] import ClassName
