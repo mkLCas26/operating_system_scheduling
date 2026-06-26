@@ -82,17 +82,7 @@ class VirMemPage(tk.Frame):
             justify="left"
         )
         
-        self.random_ref_label = tk.Label(
-            self.canvas,
-            text="",
-            font=("Courier New", 11, "bold"),
-            bg="#b5c4ba",
-            justify="left"
-        )
-        
-        self.canvas.create_window(130, 140, window=self.reference_label)
-        self.canvas.create_window(130, 140, window=self.reference_label)
-        
+        self.canvas.create_window(30, 140, window=self.reference_label)
         
         ''' ---- PAGE FRAME NUMBER LABEL, DROPDOWN, AND BUTTON ---- '''
         self.select_frame_num_label = tk.Label(
