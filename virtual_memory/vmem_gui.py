@@ -160,6 +160,14 @@ class VirMemPage(tk.Frame):
         )
         
         self.canvas.create_window(775, 730, window=btn_home)
+        self.refresh_reference()
+        
+    def refresh_reference(self):
+        randomizer = ReferenceStrGenerator(20)
+        self.current_reference = randomizer.generate()
+        format = " ".join(map(str, self.current_reference))
+        
+        self.reference_label.config(text=f"Reference String:  {format}")
         
     def resize_bg(self, event):
         resized = self.bg_img.resize((event.width, event.height))
