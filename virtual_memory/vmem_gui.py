@@ -104,7 +104,7 @@ class VirMemPage(tk.Frame):
         self.generate_btn = tk.Button(
             self,
             text="Generate!",
-            command=lambda: controller.simulate,
+            command=self.simulate,
             **button_config
         )
         
@@ -156,6 +156,8 @@ class VirMemPage(tk.Frame):
                 bg="#b5c4ba", bd=1, relief="solid"
             )
             labels.grid(row=i, column=1, sticky="nsew", ipady=6)
+            
+            self.fault_labels[algo_name] = labels
         
         self.table_frame.columnconfigure(0, weight=2)
         self.table_frame.columnconfigure(1, weight=1)
