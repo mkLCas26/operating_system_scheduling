@@ -37,6 +37,7 @@ jobs:
       with:
         tag_name: ${{ github.ref_type == 'tag' && github.ref_name || 'dev-latest' }}
         name: ${{ github.ref_type == 'tag' && format('Release {0}', github.ref_name) || 'Development Beta Build' }}
+        generate_release_notes: true
         prerelease: ${{ github.ref_type != 'tag' }}
         make_latest: ${{ github.ref_type == 'tag' && 'true' || 'false' }}
         target_commitish: ${{ github.sha }}

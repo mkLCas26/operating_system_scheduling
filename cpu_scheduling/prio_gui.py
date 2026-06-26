@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
+from utils import resource_path
 
 from cpu_scheduling.prio_process import calculate_priority 
 
@@ -17,9 +18,9 @@ class PrioPage(tk.Frame):
         
         # Load bg image (Fallback to fcfs_bg if a priority bg isn't made yet)
         try:
-            self.bg_img = Image.open("assets/prio_bg.png")
+            self.bg_img = Image.open(resource_path("assets/prio_bg.png"))
         except:
-            self.bg_img = Image.open("assets/fcfs_bg.png")
+            self.bg_img = Image.open(resource_path("assets/fcfs_bg.png"))
             
         self.virmem_bg = ImageTk.PhotoImage(self.bg_img)
         self.canvas_bg = self.bg_canvas.create_image(0, 0, image=self.virmem_bg, anchor="nw")

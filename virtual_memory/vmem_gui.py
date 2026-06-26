@@ -3,6 +3,7 @@ from tkinter import messagebox
 from tkinter import ttk
 from PIL import Image, ImageTk
 import random
+from utils import resource_path
 
 from virtual_memory.fifo_rep_logic import FIFORep
 from virtual_memory.opt_rep_logic import OptimalRep
@@ -33,7 +34,7 @@ class VirMemPage(tk.Frame):
         self.canvas.pack(fill="both", expand=True)
         
         # load bg image
-        self.bg_img = Image.open("assets/vmem_bg.png")
+        self.bg_img = Image.open(resource_path("assets/vmem_bg.png"))
         self.virmem_bg = ImageTk.PhotoImage(self.bg_img)
         
         # draw bg 
