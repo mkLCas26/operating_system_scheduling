@@ -82,7 +82,7 @@ class VirMemPage(tk.Frame):
             justify="left"
         )
         
-        self.canvas.create_window(30, 140, window=self.reference_label)
+        self.canvas.create_window(30, 140, window=self.reference_label, anchor="w")
         
         ''' ---- PAGE FRAME NUMBER LABEL, DROPDOWN, AND BUTTON ---- '''
         self.select_frame_num_label = tk.Label(
@@ -224,9 +224,9 @@ class VirMemPage(tk.Frame):
                     val = step["frames"][frame_num]
                     
                     if step["status"] == "HIT":
-                        text_color = "#6baed6"
+                        text_color = "#111184"
                     else:
-                        text_color ="#780606" 
+                        text_color ="#06402B" 
                     
                     self.paging_canvas.create_text(
                         xcanvas + (box_size/2), ycanvas + (box_size/2),
@@ -240,13 +240,13 @@ class VirMemPage(tk.Frame):
                 self.paging_canvas.create_text(
                     xcanvas +  (box_size/2), hit_coord,
                     text="H",
-                    font=("Courier New", 14, "bold"), fill="#6baed6"
+                    font=("Courier New", 14, "bold"), fill="#111184"
                 )
                 
                 self.paging_canvas.create_rectangle(
                     xcanvas - 3, ystart - 3, 
                     xcanvas + box_size + 3, ystart + 75 + (fcount * box_size),
-                    outline="#6baed6", width=2
+                    outline="#111184", width=2
                 )
         
         return ystart + 110 + (fcount * box_size)
