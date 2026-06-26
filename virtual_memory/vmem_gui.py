@@ -4,6 +4,19 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 import random
 
+class ReferenceStrGenerator:
+    def __init__(self, length):
+        self.ref_len = length
+    
+    def generate(self):
+        ref_string = []
+        
+        for i in range(self.ref_len):
+            random_entry = random.randint(0, 9)
+            ref_string.append(random_entry)
+        
+        return ref_string
+
 class VirMemPage(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
