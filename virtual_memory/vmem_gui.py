@@ -178,6 +178,77 @@ class VirMemPage(tk.Frame):
         
         self.reference_label.config(text=f"Reference String:  [{format}]")
     
+    def draw_page_table(self, title, result, ystart, fcount):
+        xstart = 30
+        xspacing = 60
+        box_size = 40
+        
+        # for adding text titles per algorithm
+        self.paging_canvas.create_text(
+            xstart, ystart - 15,
+            text=title,
+            font=("Courier New", 12, "bold"), fill="#000000",
+            anchor="w" 
+        )
+        
+        for i, step in enumerate(result["steps"]):
+            xcanvas = xstart + (i * xspacing)
+            
+            #row 1
+            self.paging_canvas.create_rectangle(
+                xcanvas, ystart, 
+                xcanvas + box_size, ystart + box_size,
+                fill="#cedbd0", outline="black", width=1.5
+            )
+            
+            self.paging_canvas.create_text(
+                xcanvas + (box_size/2),
+                ystart + (box_size/2),
+                text=str(step["page"]),
+                font=("Courier New", 12, "bold")
+            )
+            
+            #row 2 and proceeding rows
+            for frame_num in range(fcount):
+                ycanvas = ystart + 50 + (frame_num * box_size)
+                
+                self.paging_canvas.create_rectangle(
+                    xcanvas, ycanvas, 
+                    xcanvas + box_size, ycanvas + box_size,
+                    fill="#ffffff", outline="#000000"
+                )
+                
+                if frame_num < len(step["frames"]):
+                    val = step["frames"][frame_num]
+                    
+                    if step["status"] == "HIT":
+                        text_color = "#6baed6"
+                    else:
+                        text_color ="#780606" 
+                    
+                    self.paging_canvas.create_text(
+                        xcanvas + (box_size/2), ycanvas + (box_size/2),
+                        text=str(val),
+                        font=("Courier New", 12, "bold"), fill=text_color
+                    )
+                
+            #add hit indication
+            if step["status"] == "HIT":
+                hit_coord = ystart + 60 + (fcount * box_size)
+                self.paging_canvas.create_text(
+                    xcanvas +  (box_size/2), hit_coord,
+                    text="H",
+                    font=("Courier New", 14, "bold"), fill="#6baed6"
+                )
+                
+                self.paging_canvas.create_rectangle(
+                    xcanvas - 3, ystart - 3, 
+                    xcanvas + box_size + 3, ystart + 75 + (fcount * box_size),
+                    outline="#6baed6", width=2
+                )
+        
+        return ystart + 110 + (fcount * box_size)
+    
     def simulate(self):
         self.refresh_reference()          # new ref str
         self.paging_canvas.delete("all")       # reset canvas
