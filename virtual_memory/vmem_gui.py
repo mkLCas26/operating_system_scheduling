@@ -104,8 +104,52 @@ class VirMemPage(tk.Frame):
         self.canvas.create_window(1335, 280, window=self.generate_btn)
         
         ''' ---- PAGE FAULT DISPLAY TABLE ---- '''
+        #generate table
+        self.table_frame = tk.Frame(
+            self,
+            bg="#b5c4ba",
+            bd=2, relief="groove"
+        )
+        self.canvas.create_window(1160, 393, window=self.table_frame, anchor="nw", width=350, height=300)
+        
+        tk.Label(
+            self.table_frame, 
+            text="Algorithm",
+            font=("Courier New", 11, "bold"),
+            bg="#8ba094", fg="white",
+            bd=1, relief="solid"
+        ).grid(row=0, column=0, sticky="nsew", ipady=4)
+        
+        tk.Label(
+            self.table_frame, 
+            text="Page Faults",
+            font=("Courier New", 11, "bold"),
+            bg="#8ba094", fg="white",
+            bd=1, relief="solid"
+        ).grid(row=0, column=1, sticky="nsew", ipady=4)        
+        
         self.algo_list = ["FIFO", "OPTIMAL", "LRU", "LFU", "MFU"]
         self.fault_labels = {}
+    
+        for i, algo_name in enumerate(self.algo_list, start=1):
+            tk.Label(
+                self.table_frame,
+                text=algo_name,
+                font=("Courier New", 10, "bold"),
+                bg="#b5c4ba", bd=1,
+                padx=5, anchor="w", relief="solid"
+            ).grid(row=i,column=0, sticky="nswew", ipady=6)
+            
+            labels = tk.Label(
+                self.table_frame, 
+                text="-",
+                font=("Courier New", 10, "bold"),
+                bg="#b5c4ba", bd=1, relief="solid"
+            )
+            labels.grid(row=i, column=1, sticky="nsew", ipady=6)
+        
+        self.table_frame.columnconfigure(0, weight=2)
+        self.table_frame.columnconfigure(1, weight=1)
 
         ''' ---- HOME BUTTON  ---- '''
         btn_home = tk.Button(
