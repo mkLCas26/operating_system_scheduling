@@ -39,6 +39,7 @@ jobs:
         name: ${{ github.ref_type == 'tag' && format('Release {0}', github.ref_name) || 'Development Beta Build' }}
         prerelease: ${{ github.ref_type != 'tag' }}
         make_latest: ${{ github.ref_type == 'tag' && 'true' || 'false' }}
-        files: dist/main_main.exe
+        target_commitish: ${{ github.sha }}
+        files: dist/*.exe
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
