@@ -177,7 +177,54 @@ class VirMemPage(tk.Frame):
         format = " ".join(map(str, self.current_reference))
         
         self.reference_label.config(text=f"Reference String:  [{format}]")
+    
+    def simulate(self):
+        self.refresh_reference()          # new ref str
+        self.paging_canvas.delete("all")       # reset canvas
+        fcount = int(self.dropdown_select.get())     #get # of frames'
         
+        current_y = 30
+        
+        ''' ---- FOR FIFO UI INTEGRATION ---- '''
+        fifo_algo = FIFORep(self.current_reference, fcount)
+        fifo_run = fifo_algo.run()
+        self.fault_labels["FIFO"].config(text=str(fifo_run["fault_total"]))
+        
+        current_y = self.draw_page_table("FIFO PAGE REPLACEMENT ALGORITHM", fifo_run, current_y, fcount)
+        
+        ''' ---- FOR OPTIMAL PAGE UI INTEGRATION ---- '''
+        optimal_algo = OptimalRep(self.current_reference, fcount)
+        optimal_run = optimal_algo.run()
+        self.fault_labels["OPTIMAL"].config(text=str(optimal_run["fault_total"]))
+        
+        current_y = self.draw_page_table("OPTIMAL PAGE REPLACEMENT ALGORITHM", optimal_run, current_y, fcount)
+        
+        ''' ---- FOR LRU UI INTEGRATION ---- '''
+        lru_algo = LRURep(self.current_reference, fcount)
+        lru_run = lru_algo.run()
+        self.fault_labels["LRU"].config(text=str(lru_run["fault_total"]))
+        
+        current_y = self.draw_page_table("LEAST RECENTLY USED (LRU) PAGE REPLACEMENT ALGORITHM", lru_run, current_y, fcount)
+        
+        ''' ---- FOR LFU UI INTEGRATION ---- '''
+        lfu_algo = LFURep(self.current_reference, fcount)
+        lfu_run = lfu_algo.run()
+        self.fault_labels["LFU"].config(text=str(lfu_run["fault_total"]))
+        
+        current_y = self.draw_page_table("LEAST FREQUENTLY USED (LFU) PAGE REPLACEMENT ALGORITHM", lfu_run, current_y, fcount)
+        
+        ''' ---- FOR MFU UI INTEGRATION ---- '''
+        mfu_algo = MFURep(self.current_reference, fcount)
+        mfu_run = mfu_algo.run()
+        self.fault_labels["MFU"].config(text=str(mfu_run["fault_total"]))
+        
+        current_y = self.draw_page_table("MOST FREQUENTLY USED (MFU) PAGE REPLACEMENT ALGORITHM", mfu_run, current_y, fcount)
+        
+         
+        horizontal_limit = (len(self.current_reference) * 65) + 50
+        vertical_limit = current_y + 40
+        self.paging_canvas.configure(scrollregion=(0, 0, horizontal_limit, vertical_limit)) 
+     
     def resize_bg(self, event):
         resized = self.bg_img.resize((event.width, event.height))
         self.vmem_bg = ImageTk.PhotoImage(resized)
