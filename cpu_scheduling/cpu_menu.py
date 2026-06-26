@@ -1,6 +1,7 @@
 import tkinter as tk 
 from tkinter import messagebox
 from PIL import Image, ImageTk
+from utils import resource_path
 
 from cpu_scheduling.fcfs_gui import FCFSPage
 from cpu_scheduling.rr_gui import RRPage
@@ -14,7 +15,7 @@ class CpuPage(tk.Frame):
         self.canvas.pack(fill="both", expand=True)
         
         # load bg image
-        self.bg_img = Image.open("assets/cpu_bg_main.png")
+        self.bg_img = Image.open(resource_path("assets/cpu_bg_main.png"))
         self.virmem_bg = ImageTk.PhotoImage(self.bg_img)
         
         # draw bg 

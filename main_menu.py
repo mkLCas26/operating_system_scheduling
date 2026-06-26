@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
-
+from utils import resource_path
 
 #CPU SCHED files
 from cpu_scheduling.cpu_menu import CpuPage
@@ -56,7 +56,7 @@ class HomePage(tk.Frame):
         self.canvas.pack(fill="both", expand=True)
         
         # load the background image in canvas
-        self.bg_img = Image.open("assets/main_menu.png")
+        self.bg_img = Image.open(resource_path("assets/main_menu.png"))
         self.home_bg = ImageTk.PhotoImage(self.bg_img)
         
         # draw bg
@@ -145,7 +145,7 @@ class DevPage(tk.Frame):
         
         ''' Change dev page background soon '''
         # load the background image in canvas  
-        self.bg_img = Image.open("assets/background.png")
+        self.bg_img = Image.open(resource_path("assets/background.png"))
         self.dev_bg = ImageTk.PhotoImage(self.bg_img)
         
         # draw bg 

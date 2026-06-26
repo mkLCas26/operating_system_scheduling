@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
+from utils import resource_path
 
 from cpu_scheduling.fcfs_process import calculate_fcfs 
 
@@ -17,7 +18,7 @@ class FCFSPage(tk.Frame):
         self.bg_canvas.place(x=0, y=0, relwidth=1, relheight=1) 
         
         # Load bg image
-        self.bg_img = Image.open("assets/fcfs_bg.png")
+        self.bg_img = Image.open(resource_path("assets/fcfs_bg.png"))
         self.virmem_bg = ImageTk.PhotoImage(self.bg_img)
         
         # Draw bg 

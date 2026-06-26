@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
+from utils import resource_path
 
 from disk_management.fcfs_disk import calculate_fcfs
 from disk_management.sstf_disk import calculate_sstf
@@ -19,7 +20,7 @@ class DiskManPage(tk.Frame):
         self.bg_canvas = tk.Canvas(self, highlightthickness=0)
         self.bg_canvas.place(x=0, y=0, relwidth=1, relheight=1)
 
-        self.bg_img = Image.open("assets/background.png")
+        self.bg_img = Image.open(resource_path("assets/background.png"))
         self.disk_bg = ImageTk.PhotoImage(self.bg_img)
 
         # draw bg
