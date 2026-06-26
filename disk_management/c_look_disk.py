@@ -1,0 +1,22 @@
+def calculate_c_look(requests, head, direction):
+    if not requests:
+        return [], 0
+
+    reqs = requests.copy()
+    left = sorted([r for r in reqs if r < head])
+    right = sorted([r for r in reqs if r >= head])
+
+    seek_sequence = [head]
+    total_movement = 0
+
+    if direction == "Left":
+        for r in reversed(left): seek_sequence.append(r)
+        for r in reversed(right): seek_sequence.append(r)
+    else:  # Right
+        for r in right: seek_sequence.append(r)
+        for r in left: seek_sequence.append(r)
+
+    for i in range(len(seek_sequence) - 1):
+        total_movement += abs(seek_sequence[i] - seek_sequence[i + 1])
+
+    return seek_sequence, total_movement

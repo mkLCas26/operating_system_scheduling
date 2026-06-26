@@ -15,7 +15,7 @@ from cpu_scheduling.rr_gui import RRPage
 from virtual_memory.vmem_gui import VirMemPage
 
 #DISK SCHED files
-#from [foldername.filename] import ClassName
+from disk_management.disk_gui import DiskManPage
 
 class MainApp(tk.Tk):
     def __init__(self):     
@@ -34,7 +34,7 @@ class MainApp(tk.Tk):
         
         self.frames = {}
         # list of pages included (so if may dinedevelop na page i-add ung class dito para magpakita pag ni-run)
-        for page in (HomePage, CpuPage, FCFSPage, RRPage, VirMemPage, DevPage):  
+        for page in (HomePage, CpuPage, FCFSPage, RRPage, VirMemPage, DiskManPage, DevPage):
             frame = page(container, self)
             self.frames[page.__name__] = frame
             frame.place(relwidth=1, relheight=1)
