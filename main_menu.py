@@ -7,6 +7,7 @@ from PIL import Image, ImageTk
 from cpu_scheduling.cpu_menu import CpuPage
 from cpu_scheduling.fcfs_gui import FCFSPage
 from cpu_scheduling.rr_gui import RRPage
+from cpu_scheduling.prio_gui import PrioPage
 
 #MEMORY MANAGEMENT files
 #from [foldername.filename] import ClassName
@@ -34,7 +35,7 @@ class MainApp(tk.Tk):
         
         self.frames = {}
         # list of pages included (so if may dinedevelop na page i-add ung class dito para magpakita pag ni-run)
-        for page in (HomePage, CpuPage, FCFSPage, RRPage, VirMemPage, DiskManPage, DevPage):
+        for page in (HomePage, CpuPage, FCFSPage, PrioPage, RRPage, VirMemPage, DiskManPage, DevPage):
             frame = page(container, self)
             self.frames[page.__name__] = frame
             frame.place(relwidth=1, relheight=1)

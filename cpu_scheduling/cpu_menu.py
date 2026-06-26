@@ -61,7 +61,7 @@ class CpuPage(tk.Frame):
         btn_prio = tk.Button(
             self,
             text="🗃️ PRIORITY SCHEDULING", 
-            command=lambda: controller.show_frame("PrioMenu"),
+            command=lambda: controller.show_frame("PrioPage"),
             **button_config
         )
         
