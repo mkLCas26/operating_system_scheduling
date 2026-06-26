@@ -104,7 +104,7 @@ class VirMemPage(tk.Frame):
         self.generate_btn = tk.Button(
             self,
             text="Generate!",
-            command=lambda: controller.show_frame("HomePage"),
+            command=lambda: controller.simulate,
             **button_config
         )
         
@@ -176,7 +176,7 @@ class VirMemPage(tk.Frame):
         self.current_reference = randomizer.generate()
         format = " ".join(map(str, self.current_reference))
         
-        self.reference_label.config(text=f"Reference String:  {format}")
+        self.reference_label.config(text=f"Reference String:  [{format}]")
         
     def resize_bg(self, event):
         resized = self.bg_img.resize((event.width, event.height))
