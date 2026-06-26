@@ -30,7 +30,7 @@ jobs:
 
     - name: Compile Script to EXE
       run: |
-        pyinstaller --onefile --windowed main_menu.py
+        pyinstaller --onefile --windowed --add-data "assets;assets" main_menu.py
 
     - name: Create Release and Upload Asset
       uses: softprops/action-gh-release@v2
