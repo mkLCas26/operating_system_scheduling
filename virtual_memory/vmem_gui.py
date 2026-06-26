@@ -4,6 +4,12 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 import random
 
+from virtual_memory.fifo_rep_logic import FIFORep
+from virtual_memory.opt_rep_logic import OptimalRep
+from virtual_memory.lru_rep_logic import LRURep
+from virtual_memory.lfu_rep_logic import LFURep
+from virtual_memory.mfu_rep_logic import MFURep
+
 class ReferenceStrGenerator:
     def __init__(self, length):
         self.ref_len = length
