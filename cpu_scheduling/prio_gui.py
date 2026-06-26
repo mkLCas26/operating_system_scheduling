@@ -14,12 +14,7 @@ class PrioPage(tk.Frame):
         
         self.bg_canvas = tk.Canvas(self, highlightthickness=0)
         self.bg_canvas.place(x=0, y=0, relwidth=1, relheight=1) 
-        
-        # Load bg image (Fallback to fcfs_bg if a priority bg isn't made yet)
-        try:
-            self.bg_img = Image.open("assets/prio_bg.png")
-        except:
-            self.bg_img = Image.open("assets/fcfs_bg.png")
+        self.bg_img = Image.open("assets/prio_bg.png")
             
         self.virmem_bg = ImageTk.PhotoImage(self.bg_img)
         self.canvas_bg = self.bg_canvas.create_image(0, 0, image=self.virmem_bg, anchor="nw")
@@ -30,7 +25,6 @@ class PrioPage(tk.Frame):
     def setup_ui(self):
         # --- 1. INPUT FRAME ---
         input_frame = tk.Frame(self, bg="#b5c4ba", bd=4, relief="ridge") 
-        # Made taller (0.45) to fit 4 rows + buttons
         input_frame.place(relx=0.03, rely=0.16, relwidth=0.33, relheight=0.25)
 
         input_frame.columnconfigure(0, weight=1) 

@@ -120,7 +120,7 @@ class RRPage(tk.Frame):
         right_frame = tk.Frame(self, bg="#b5c4ba", bd=4, relief="ridge")
         right_frame.place(relx=0.38, rely=0.16, relwidth=0.59, relheight=0.72)
 
-        self.lbl_stats = tk.Label(right_frame, text="Avg TAT: 0.00 | Avg WT: 0.00 | CPU Util: 0.00%", font=("Courier", 14, "bold"), bg="#b5c4ba")
+        self.lbl_stats = tk.Label(right_frame, text="Avg TAT: 0.00 | Avg WT: 0.00 | CPU Utilization: 0.00%", font=("Courier", 14, "bold"), bg="#b5c4ba")
         self.lbl_stats.pack(anchor="w", padx=20, pady=15)
 
         tk.Label(right_frame, text="Gantt Chart:", font=("Courier", 12, "bold"), bg="#b5c4ba").pack(anchor="w", padx=20)
