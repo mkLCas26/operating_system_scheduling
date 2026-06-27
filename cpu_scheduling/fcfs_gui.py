@@ -33,7 +33,7 @@ class FCFSPage(tk.Frame):
     def setup_ui(self):
         # --- 1. INPUT FRAME (Top Left) ---
         input_frame = tk.Frame(self, bg="#b5c4ba", bd=4, relief="ridge") 
-        input_frame.place(relx=0.03, rely=0.16, relwidth=0.32, relheight=0.24)
+        input_frame.place(relx=0.03, rely=0.16, relwidth=0.32, relheight=0.20)
 
         # Tell the frame to stretch its columns and rows to fill all available space
         input_frame.columnconfigure(0, weight=1) # The Label column
@@ -90,26 +90,28 @@ class FCFSPage(tk.Frame):
 
         # --- 2. TABLE FRAME (Bottom Left) ---
         table_frame = tk.Frame(self, bg="#b5c4ba", bd=4, relief="ridge")
-        table_frame.place(relx=0.03, rely=0.43, relwidth=0.32, relheight=0.45)
+        table_frame.place(relx=0.03, rely=0.38, relwidth=0.32, relheight=0.50)
 
         # --- NEW: Treeview Styling ---
         style = ttk.Style()
-        style.theme_use("default") # Forces Tkinter to let us change the colors
+        style.theme_use("clam") 
         
-        style.configure("Treeview",
-                        background="#cedbd0",
-                        foreground="#1a1a1a",
-                        fieldbackground="#cedbd0", # Changes the empty space color
-                        bordercolor="#99aab5",
-                        font=("Courier", 9))
+        style.configure("Treeview", 
+                        background="#cedbd0", 
+                        foreground="#1a1a1a", 
+                        fieldbackground="#cedbd0",
+                        rowheight=25,
+                        bordercolor="#99aab5", 
+                        font=("Courier", 8))
         
-        # Style the table headers
-        style.configure("Treeview.Heading",
-                        background="#a1b2a6",
-                        foreground="black",
-                        font=("Courier", 10, "bold"))
+        style.configure("Treeview.Heading", 
+                        background="#a1b2a6", 
+                        foreground="black", 
+                        relief="solid",
+                        borderwidth=1,
+                        bordercolor="#18301f",
+                        font=("Courier", 9, "bold"))
         
-        # Change color when a row is selected
         style.map('Treeview', background=[('selected', '#8a2be2')])
 
         cols = ("PID", "AT", "BT", "CT", "TAT", "WT")
