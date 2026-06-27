@@ -1,7 +1,18 @@
 import os
 import tkinter as tk
 from tkinter import messagebox
-from mft_first_fit_gui import TransparentMFTFirstFitSimulator
+
+# Import GUI modules with local-first fallbacks for direct script execution and package execution
+try:
+    from mft_first_fit_gui import TransparentMFTFirstFitSimulator
+    from mft_best_fit_gui import TransparentMFTBestFitSimulator
+    from mft_worst_fit_gui import TransparentMFTWorstFitSimulator
+    from mvt_gui import MVTSimulatorGUI
+except Exception:
+    from operating_system_scheduling.memory_management.mft_first_fit_gui import TransparentMFTFirstFitSimulator
+    from operating_system_scheduling.memory_management.mft_best_fit_gui import TransparentMFTBestFitSimulator
+    from operating_system_scheduling.memory_management.mft_worst_fit_gui import TransparentMFTWorstFitSimulator
+    from operating_system_scheduling.memory_management.mvt_gui import MVTSimulatorGUI
 
 class MemoryManagementMenu(tk.Tk):
     def __init__(self):
@@ -112,9 +123,19 @@ class MemoryManagementMenu(tk.Tk):
             "first": "First Fit"
         }
         
-        # Launch the MFT First-Fit GUI as a new window
+       
         try:
-            mft_gui = TransparentMFTFirstFitSimulator()
+            if strategy == "first":
+                mft_gui = TransparentMFTFirstFitSimulator()
+            elif strategy == "best":
+                mft_gui = TransparentMFTBestFitSimulator()
+            elif strategy == "worst":
+                mft_gui = TransparentMFTWorstFitSimulator()
+            else:
+                messagebox.showerror("Error", f"Unknown strategy: {strategy}")
+                self.show_mft_strategies()
+                return
+            
             mft_gui.mainloop()
         except Exception as e:
             messagebox.showerror("Error", f"Failed to launch MFT GUI: {str(e)}")
@@ -260,18 +281,24 @@ class MemoryManagementMenu(tk.Tk):
         tk.Button(self.content_frame, text="Run MVT Simulation", font=("Comic Sans MS", 14, "bold"),
                   bg="#34d399", fg="#0f172a", activebackground="#059669", activeforeground="#ffffff",
                   bd=0, cursor="hand2", width=24, pady=10,
-                  command=lambda: messagebox.showinfo(
-                      "MVT Simulation",
-                      (f"Simulated MVT flow selected:\n"
-                       f"- {schedule_names.get(self.mvt_configs['scheduling'], 'Unknown')}\n"
-                       f"- {allocation_names.get(self.mvt_configs['allocation'], 'Unknown')}\n"
-                       f"- Compaction: {'Yes' if compaction else 'No'}\n\n"
-                       "This is a placeholder for your actual scheduling and allocation logic."))
+                  command=lambda: self._launch_mvt_simulator()
                  ).pack(pady=12)
 
         tk.Button(self.content_frame, text="⬅️ Start Over", font=("Comic Sans MS", 12, "bold"),
                   bg=self.colors["bg_fallback"], fg="#f8fafc", bd=0, cursor="hand2",
                   command=self.show_root_menu).pack(pady=(15, 0))
+    
+    def _launch_mvt_simulator(self):
+        """Launch the MVT simulator with configured options"""
+        try:
+            mvt_gui = MVTSimulatorGUI(
+                scheduling=self.mvt_configs['scheduling'],
+                allocation=self.mvt_configs['allocation'],
+                compaction=self.mvt_configs['compaction']
+            )
+            mvt_gui.mainloop()
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to launch MVT simulator: {str(e)}")
         
 if __name__ == "__main__":
     app = MemoryManagementMenu()
