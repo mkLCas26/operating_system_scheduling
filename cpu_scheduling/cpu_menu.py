@@ -5,6 +5,7 @@ from utils import resource_path
 
 from cpu_scheduling.fcfs_gui import FCFSPage
 from cpu_scheduling.rr_gui import RRPage
+from cpu_scheduling.sjf_gui import SJFPage
 
 class CpuPage(tk.Frame):
     def __init__(self, parent, controller):
@@ -52,7 +53,7 @@ class CpuPage(tk.Frame):
         btn_sjf = tk.Button(
             self,
             text="🗃️ SJF (SHORTEST JOB FIRST)",
-            command=lambda: controller.show_frame("SjfMenu"),
+            command=lambda: controller.show_frame("SJFPage"),
             **button_config
         )
         
