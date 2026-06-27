@@ -119,6 +119,10 @@ class PrioPage(tk.Frame):
         self.canvas = tk.Canvas(right_frame, bg="#cedbd0", height=200, highlightthickness=0, relief="solid", bd=2)
         self.canvas.pack(fill="both", expand=True, padx=20, pady=10)
 
+        tk.Button(self, text="◀ Back", command=lambda: self.controller.show_frame("CpuPage"), 
+            font=("Courier", 10, "bold"), bg="#cedbd0", fg="#1a1a1a", 
+            activebackground="#a1b2a6", relief="solid", bd=1, width=10).place(relx=0.03, rely=0.91)
+
     def resize_bg(self, event):
         new_width = event.width
         new_height = event.height
