@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
+from utils import resource_path
 
 from cpu_scheduling.sjf_process import calculate_sjf 
 
@@ -15,7 +16,7 @@ class SJFPage(tk.Frame):
         self.bg_canvas = tk.Canvas(self, highlightthickness=0)
         self.bg_canvas.place(x=0, y=0, relwidth=1, relheight=1) 
 
-        self.bg_img = Image.open("assets/sjf_bg.png")
+        self.bg_img = Image.open(resource_path("assets/sjf_bg.png"))
             
         self.virmem_bg = ImageTk.PhotoImage(self.bg_img)
         self.canvas_bg = self.bg_canvas.create_image(0, 0, image=self.virmem_bg, anchor="nw")
