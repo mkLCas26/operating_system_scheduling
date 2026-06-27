@@ -6,7 +6,7 @@ import random
 try:
     from mvt_process import MVTSimulator
 except Exception:
-    from operating_system_scheduling.memory_management.mvt_process import MVTSimulator
+    from memory_management.mvt_process import MVTSimulator
 
 
 class MVTSimulatorGUI(tk.Tk):

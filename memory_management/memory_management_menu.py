@@ -1,6 +1,8 @@
 import os
 import tkinter as tk
 from tkinter import messagebox
+from utils import resource_path
+from PIL import Image, ImageTk
 
 # Import GUI modules with local-first fallbacks for direct script execution and package execution
 try:
@@ -9,19 +11,16 @@ try:
     from mft_worst_fit_gui import TransparentMFTWorstFitSimulator
     from mvt_gui import MVTSimulatorGUI
 except Exception:
-    from operating_system_scheduling.memory_management.mft_first_fit_gui import TransparentMFTFirstFitSimulator
-    from operating_system_scheduling.memory_management.mft_best_fit_gui import TransparentMFTBestFitSimulator
-    from operating_system_scheduling.memory_management.mft_worst_fit_gui import TransparentMFTWorstFitSimulator
-    from operating_system_scheduling.memory_management.mvt_gui import MVTSimulatorGUI
+    from memory_management.mft_first_fit_gui import TransparentMFTFirstFitSimulator
+    from memory_management.mft_best_fit_gui import TransparentMFTBestFitSimulator
+    from memory_management.mft_worst_fit_gui import TransparentMFTWorstFitSimulator
+    from memory_management.mvt_gui import MVTSimulatorGUI
 
-class MemoryManagementMenu(tk.Tk):
-    def __init__(self):
-        super().__init__()
-        self.title("🎯 OS Memory Management & Scheduling Suite")
-        
-        self.geometry("1920x1080")
-        self.minsize(1200, 780)
-        self.resizable(True, True)
+
+class MemoryPage(tk.Frame):
+    def __init__(self, parent, controller):
+        super().__init__(parent)
+        self.controller = controller
 
         self.colors = {
             "bg_fallback": "#1d1233",
@@ -38,24 +37,17 @@ class MemoryManagementMenu(tk.Tk):
 
     def setup_background(self):
         try:
-            base_dir = os.path.dirname(os.path.abspath(__file__))
-            asset_candidates = [
-                os.path.join(base_dir, "..", "..", "assets", "mm_bg_main.png"),
-                os.path.join(base_dir, "..", "assets", "temp_bg.png"),
-                os.path.join(base_dir, "assets", "temp_bg.png"),
-                os.path.join(base_dir, "..", "..", "assets", "temp_bg.png"),
-            ]
+            image_path = resource_path("assets/background.png")
 
-            for asset_path in asset_candidates:
-                if os.path.exists(asset_path):
-                    self.bg_image = tk.PhotoImage(file=r"C:\Users\Precious Nicole\Documents\assets\mm_bg_main.png")
-                    self.bg_label = tk.Label(self, image=self.bg_image, bd=0)
-                    self.bg_label.place(x=0, y=0, relwidth=1, relheight=1)
-                    return
+            self.bg_img = Image.open(image_path)
+            self.bg_image = ImageTk.PhotoImage(self.bg_img)
 
-            print("No background image found; using fallback color.")
+            self.bg_label = tk.Label(self, image=self.bg_image, bd=0)
+            self.bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+
         except Exception as e:
             print(f"Error loading background asset: {e}")
+            print("No background image found; using fallback color.")
 
     def clear_container(self):
         if hasattr(self, 'content_frame'):
@@ -84,7 +76,7 @@ class MemoryManagementMenu(tk.Tk):
         btn_mvt.pack(pady=12)
 
         tk.Button(self.content_frame, text="❌ Close Suite", font=("Comic Sans MS", 12, "bold"),
-                  bg=self.colors["bg_fallback"], fg="#ef4444", bd=0, cursor="hand2", command=self.quit).pack(pady=(25, 0))
+                  bg=self.colors["bg_fallback"], fg="#ef4444", bd=0, cursor="hand2", command=lambda: self.controller.show_frame("HomePage")).pack(pady=(25, 0))
 
     def show_mft_strategies(self):
         self.clear_container()
@@ -299,7 +291,7 @@ class MemoryManagementMenu(tk.Tk):
             mvt_gui.mainloop()
         except Exception as e:
             messagebox.showerror("Error", f"Failed to launch MVT simulator: {str(e)}")
-        
+
 if __name__ == "__main__":
     app = MemoryManagementMenu()
     app.mainloop()

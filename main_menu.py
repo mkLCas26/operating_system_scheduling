@@ -11,7 +11,7 @@ from cpu_scheduling.prio_gui import PrioPage
 from cpu_scheduling.sjf_gui import SJFPage
 
 #MEMORY MANAGEMENT files
-#from [foldername.filename] import ClassName
+from memory_management.memory_management_menu import MemoryPage
 
 #VIRTUAL MEMORY files
 from virtual_memory.vmem_gui import VirMemPage
@@ -36,7 +36,7 @@ class MainApp(tk.Tk):
         
         self.frames = {}
         # list of pages included (so if may dinedevelop na page i-add ung class dito para magpakita pag ni-run)
-        for page in (HomePage, CpuPage, FCFSPage, SJFPage, PrioPage, RRPage, VirMemPage, DiskManPage, DevPage):
+        for page in (HomePage, CpuPage, FCFSPage, SJFPage, PrioPage, RRPage, VirMemPage, DiskManPage, DevPage, MemoryPage):
             frame = page(container, self)
             self.frames[page.__name__] = frame
             frame.place(relwidth=1, relheight=1)
