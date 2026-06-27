@@ -78,15 +78,13 @@ class FCFSPage(tk.Frame):
         btn_frame = tk.Frame(input_frame, bg="#b5c4ba")
         btn_frame.grid(row=2, column=0, columnspan=2, pady=(10, 15), padx=10, sticky="ew")
         
-        # Configure the button frame so each button gets an equal 1/3rd of the space
         btn_frame.columnconfigure(0, weight=1)
         btn_frame.columnconfigure(1, weight=1)
         btn_frame.columnconfigure(2, weight=1)
 
-        # Use sticky="ew" to make the buttons fill their designated third of the screen
-        tk.Button(btn_frame, text="Add Process", command=self.add_process, **btn_style).grid(row=0, column=0, padx=5, sticky="ew")
-        tk.Button(btn_frame, text="Start FCFS", command=self.run_algorithm, **btn_style).grid(row=0, column=1, padx=5, sticky="ew")
-        tk.Button(btn_frame, text="Clear", command=self.clear_all, **btn_style).grid(row=0, column=2, padx=5, sticky="ew")
+        tk.Button(btn_frame, text="Add Process", command=self.add_process, **btn_style).grid(row=0, column=0, padx=4, sticky="ew")
+        tk.Button(btn_frame, text="Start", command=self.run_algorithm, **btn_style).grid(row=0, column=1, padx=4, sticky="ew")
+        tk.Button(btn_frame, text="Clear", command=self.clear_all, **btn_style).grid(row=0, column=2, padx=4, sticky="ew")
 
         # --- 2. TABLE FRAME (Bottom Left) ---
         table_frame = tk.Frame(self, bg="#b5c4ba", bd=4, relief="ridge")
@@ -132,6 +130,10 @@ class FCFSPage(tk.Frame):
         
         self.canvas = tk.Canvas(right_frame, bg="#cedbd0", height=200, highlightthickness=0, relief="solid", bd=2)
         self.canvas.pack(fill="both", expand=True, padx=20, pady=10)
+
+        tk.Button(self, text="◀ Back", command=lambda: self.controller.show_frame("CpuPage"), 
+                  font=("Courier", 10, "bold"), bg="#cedbd0", fg="#1a1a1a", 
+                  activebackground="#a1b2a6", relief="solid", bd=1, width=10).place(relx=0.03, rely=0.91)
 
     def resize_bg(self, event):
         new_width = event.width
